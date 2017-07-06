@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset="utf-8">
+  <title>Open Weather API</title>
+  <link href="css/weather.css" rel="stylesheet" type="text/css">
+
+
+  <!-- see https://websygen.github.io/owfont/  -->
+</head>
+
+<body>
+  <div class="outerContainer">
+    <h2 id="city">Weather</h2>
+
+    <div class="container">
+      <div id="iconDiv" class="cell flex1"></div>
+
+      <div class="cell flex2">
+        <span id='tempNow' class="cell temp">
+
+        </span>
+        <span id='tempUnit'></span>
+      </div>
+
+      <div id="degreeContainer" class="cell flex1">
+        <p><span id='windDegrees'></span></p>
+      </div>
+
+      <div id="sunriseContainer" class="cell flex2">
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="cell flex1">
+        <p id='weatherMain'></p>
+      </div>
+      <div class="cell flex2">
+        <p id='humidity'></p>
+      </div>
+      <div class="cell flex1">
+        <p id='windSpeed'></p>
+      </div>
+      <div id="sunsetContainer" class="cell flex2">
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="controls">
+    <button type="button" name="seattle" class="seattle" data-lat="47.6762" data-lon="-122.3182"
+      data-timeOffset="-7">Seattle</button>
+    <button type="button" name="london" class="london" data-lat="51.5074" data-lon="0.1278"
+      data-timeOffset="1">London</button>
+    <button type="button" name="myLocation" class="myLocation">My Location</button>
+    <script type="text/javascript" src="weather.js"></script>
+  </div>
+
+
+</body>
+
+</html>
