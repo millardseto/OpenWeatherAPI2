@@ -2,6 +2,7 @@
 button {
   width: 8rem;
   margin-right: 3rem;
+  margin-bottom: 1rem;
   border-radius: 10%; }
   button:hover {
     color: white;
@@ -12,7 +13,8 @@ button {
 body {
   font-family: sans-serif;
   color: black;
-  font-weight: lighter; }
+  font-weight: lighter;
+  min-width: 40rem; }
 
 #city {
   color: white;
@@ -22,9 +24,7 @@ body {
 .container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  max-width: 35rem;
-  min-width: 20rem; }
+  justify-content: center; }
 
 .cell {
   text-align: center;
