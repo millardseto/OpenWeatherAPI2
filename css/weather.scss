@@ -1,28 +1,32 @@
 @import 'normalize.css';
 @import 'variables';
 
-// variables
-$primary-color: gold;
-
 button {
   width: 8rem;
   margin-right: 3rem;
-  border-radius: .625em;
+  border-radius: 10%;
 
   &:hover {
-    color: white;
-    box-shadow: 5px 5px 5px #888888;
+    color: $hover-color;
+    box-shadow: $shadow;
   }
 
   &:active {
-    color: #1e5799;
+    color: $active-color;
   }
-
 }
 
 
 body {
   font-family: sans-serif;
+  color: $general-color;
+  font-weight: lighter;
+}
+
+#city {
+  color: $header-color;
+  letter-spacing: 4px;
+  font-weight: lighter;
 }
 
 .container{

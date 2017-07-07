@@ -2,7 +2,7 @@
 button {
   width: 8rem;
   margin-right: 3rem;
-  border-radius: .625em; }
+  border-radius: 10%; }
   button:hover {
     color: white;
     box-shadow: 5px 5px 5px #888888; }
@@ -10,7 +10,14 @@ button {
     color: #1e5799; }
 
 body {
-  font-family: sans-serif; }
+  font-family: sans-serif;
+  color: black;
+  font-weight: lighter; }
+
+#city {
+  color: white;
+  letter-spacing: 4px;
+  font-weight: lighter; }
 
 .container {
   display: flex;
