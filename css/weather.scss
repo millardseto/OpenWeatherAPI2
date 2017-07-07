@@ -3,7 +3,20 @@
 // variables
 $primary-color: gold;
 
+button {
+  width: 8rem;
+  margin-right: 3rem;
+  border-radius: .625em;
 
+  &:hover {
+    color: white;
+    box-shadow: 5px 5px 5px #888888;
+  }
+
+  &:active {
+    color: #1e5799;
+  }
+}
 
 
 body {

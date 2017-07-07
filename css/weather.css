@@ -353,6 +353,16 @@ td,
 th {
   padding: 0; }
 
+button {
+  width: 8rem;
+  margin-right: 3rem;
+  border-radius: .625em; }
+  button:hover {
+    color: white;
+    box-shadow: 5px 5px 5px #888888; }
+  button:active {
+    color: #1e5799; }
+
 body {
   font-family: sans-serif; }
 
