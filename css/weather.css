@@ -14,7 +14,8 @@ body {
   font-family: sans-serif;
   color: black;
   font-weight: lighter;
-  min-width: 40rem; }
+  min-width: 40rem;
+  margin: 2rem; }
 
 #city {
   color: white;
