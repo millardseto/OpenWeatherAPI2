@@ -18,7 +18,7 @@ body {
 
 #city {
   color: white;
-  letter-spacing: 4px;
+  letter-spacing: 0.1rem;
   font-weight: lighter; }
 
 .container {
