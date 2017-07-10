@@ -3,10 +3,12 @@ button {
   width: 8rem;
   margin-right: 3rem;
   margin-bottom: 1rem;
-  border-radius: 10%; }
+  border-radius: 10%;
+  transition: box-shadow 1s, font-size 1s; }
   button:hover {
     color: white;
-    box-shadow: 5px 5px 5px #888888; }
+    box-shadow: 5px 5px 5px #888888;
+    font-size: 1.2rem; }
   button:active {
     color: #1e5799; }
 
@@ -50,7 +52,7 @@ body {
   height: 6rem; }
 
 .controls {
-  margin: 6rem; }
+  margin: 5rem 5rem 2rem 5rem; }
 
 #windDegrees {
   font-size: 3rem; }

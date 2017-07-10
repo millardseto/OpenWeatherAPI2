@@ -9,9 +9,12 @@ button {
   margin-bottom: 1rem;
   border-radius: 10%;
 
+  transition: box-shadow 1s, font-size 1s;
+
   &:hover {
     color: $hover-color;
     box-shadow: $shadow;
+    font-size: $hover-font-size;
   }
 
   &:active {
@@ -70,7 +73,7 @@ body {
 }
 
 .controls {
-  margin: 6rem;
+  margin: 5rem 5rem 2rem 5rem;
 }
 
 #windDegrees {
@@ -120,4 +123,5 @@ body {
   background: #959595; /* Old browsers */
   background: -moz-linear-gradient(top, #959595 0%, #0d0d0d 46%, #010101 50%, #0a0a0a 53%, #4e4e4e 76%, #383838 87%, #1b1b1b 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, #959595 0%,#0d0d0d 46%,#010101 50%,#0a0a0a 53%,#4e4e4e 76%,#383838 87%,#1b1b1b 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #959595 0%,#0d0d0d 46%,#010101 50%,#0a0a0a 53%,#4e4e4e 76%,#383838 87%,#1b1b1b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */}
+  background: linear-gradient(to bottom, #959595 0%,#0d0d0d 46%,#010101 50%,#0a0a0a 53%,#4e4e4e 76%,#383838 87%,#1b1b1b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
