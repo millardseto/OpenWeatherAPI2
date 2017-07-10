@@ -195,13 +195,20 @@ function setTheme(){
   let outerContainer = document.getElementById("outerContainer");
   outerContainer.setAttribute("class", this.value);
 
-  let textColor = this.getAttribute("data-textColor");
+  // reset text color, then set again if necessary
+  let colorClass = this.getAttribute("data-textColor");
+
   let innerContainer = document.getElementById("container");
-  innerContainer.style.color = textColor;
+  innerContainer.classList.remove("lightText");
 
   let innerContainer2 = document.getElementById("container2");
-  innerContainer2.style.color = textColor;
+  innerContainer2.classList.remove("lightText");
+
+  if (colorClass){
+    innerContainer.classList.add(colorClass);
+    innerContainer2.classList.add(colorClass);
   }
+}
 
 
 

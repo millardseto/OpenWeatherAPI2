@@ -29,6 +29,9 @@ body {
   flex-direction: row;
   justify-content: center; }
 
+.lightText {
+  color: #d2d6dd; }
+
 .cell {
   text-align: center;
   align-self: center;
