@@ -14,7 +14,7 @@
   <div id="outerContainer" class="cool">
     <h1 id="city">Weather</h1>
 
-    <div class="container">
+    <div id="container" class="container">
       <div id="iconDiv" class="cell flex1"></div>
 
       <div class="cell flex2">
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div id="container2" class="container">
       <div class="cell flex1">
         <p id='weatherMain'></p>
       </div>
@@ -61,13 +61,13 @@
   <fieldset>
     <legend>Themes</legend>
 
-    <input id="cool" type="radio" name="theme" value="cool" checked="checked">
+    <input id="cool" type="radio" name="theme" value="cool" checked="checked" data-textColor="black">
     <label for="cool">Cool</label>
 
-    <input id="warm" type="radio" name="theme" value="warm">
+    <input id="warm" type="radio" name="theme" value="warm" data-textColor="black">
     <label for="warm">Warm</label>
 
-    <input id="dark" type="radio" name="theme" value="dark">
+    <input id="dark" type="radio" name="theme" value="dark" data-textColor="white">
     <label for="dark">Dark</label>
   </fieldset>
 

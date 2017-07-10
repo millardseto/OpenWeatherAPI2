@@ -192,9 +192,15 @@ function positionError(failure){
 }
 
 function setTheme(){
-  //console.log(this.id);
-  let container = document.getElementById("outerContainer");
-  container.setAttribute("class", this.value);
+  let outerContainer = document.getElementById("outerContainer");
+  outerContainer.setAttribute("class", this.value);
+
+  let textColor = this.getAttribute("data-textColor");
+  let innerContainer = document.getElementById("container");
+  innerContainer.style.color = textColor;
+
+  let innerContainer2 = document.getElementById("container2");
+  innerContainer2.style.color = textColor;
   }
 
 
