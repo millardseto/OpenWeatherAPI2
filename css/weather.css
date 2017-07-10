@@ -4,11 +4,10 @@ button {
   margin-right: 3rem;
   margin-bottom: 1rem;
   border-radius: 10%;
-  transition: box-shadow 1s, font-size 1s; }
+  transition: box-shadow 1s; }
   button:hover {
     color: white;
-    box-shadow: 5px 5px 5px #888888;
-    font-size: 1.2rem; }
+    box-shadow: 5px 5px 5px #888888; }
   button:active {
     color: #1e5799; }
 
