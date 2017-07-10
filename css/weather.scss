@@ -91,12 +91,33 @@ body {
   vertical-align:top;
 }
 
-.outerContainer {
+// gradients via http://www.colorzilla.com/gradient-editor/
+
+.cool {
   border: 1rem solid gray;
   padding: 1rem;
 
-  background: #1e5799; /* Old browsers */
+  background: $gradient-color1; /* Old browsers */
   background: -moz-linear-gradient(top, $gradient-color1 0%, $gradient-color2 50%, $gradient-color3 51%, $gradient-color4 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, $gradient-color1 0%, $gradient-color2 50%, $gradient-color3 51%, $gradient-color4 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, $gradient-color1 0%,$gradient-color2 50%, $gradient-color3 51%, $gradient-color4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
+
+.warm {
+  border: 1rem solid gray;
+  padding: 1rem;
+
+  background: #f3c5bd; /* Old browsers */
+  background: -moz-linear-gradient(top, #f3c5bd 0%, #e86c57 50%, #ea2803 51%, #ff6600 75%, #c72200 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #f3c5bd 0%,#e86c57 50%,#ea2803 51%,#ff6600 75%,#c72200 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #f3c5bd 0%,#e86c57 50%,#ea2803 51%,#ff6600 75%,#c72200 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+.dark {
+  border: 1rem solid gray;
+  padding: 1rem;
+
+  background: #959595; /* Old browsers */
+  background: -moz-linear-gradient(top, #959595 0%, #0d0d0d 46%, #010101 50%, #0a0a0a 53%, #4e4e4e 76%, #383838 87%, #1b1b1b 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #959595 0%,#0d0d0d 46%,#010101 50%,#0a0a0a 53%,#4e4e4e 76%,#383838 87%,#1b1b1b 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #959595 0%,#0d0d0d 46%,#010101 50%,#0a0a0a 53%,#4e4e4e 76%,#383838 87%,#1b1b1b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */}

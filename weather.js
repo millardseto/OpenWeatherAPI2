@@ -191,6 +191,14 @@ function positionError(failure){
   console.log("message: " + failure.message);
 }
 
+function setTheme(){
+  //console.log(this.id);
+  let container = document.getElementById("outerContainer");
+  container.setAttribute("class", this.value);
+  }
+
+
+
 // When the dom is ready, wire up event handlers
 document.addEventListener("DOMContentLoaded", function () {
   // button controls
@@ -199,6 +207,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const myLocation = document.querySelector('button.myLocation');
   myLocation.disabled = true;
   myLocation.classList.add("wait");
+
+  const cool = document.querySelector('#cool');
+  const warm = document.querySelector('#warm');
+  const dark = document.querySelector('#dark');
 
   // getCurrentPosition doesnt always work on local machine, hardcode test values
   if (debug){
@@ -214,6 +226,10 @@ document.addEventListener("DOMContentLoaded", function () {
   london.addEventListener('click', getWeatherFromAPI);
   seattle.addEventListener('click', getWeatherFromAPI);
   myLocation.addEventListener('click', getWeatherFromAPI);
+
+  cool.addEventListener('click', setTheme);
+  warm.addEventListener('click', setTheme);
+  dark.addEventListener('click', setTheme);
 })
 
 // Builds query parameters
