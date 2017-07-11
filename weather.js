@@ -32,7 +32,8 @@ function reqListener () {
   //console.log(this.responseText);
   if (this.readyState == 4 && this.status == 200) {
         data = JSON.parse(this.responseText);
-         showUI(data);
+        document.body.classList.remove("wait");
+        showUI(data);
     }
 }
 
@@ -167,6 +168,7 @@ function getWeatherFromAPI(){
   oReq.open("GET", apiCall);
   oReq.send();
 
+  document.body.classList.add("wait");
 }
 
 // lookup user location and save it as custom attributes on the button.
