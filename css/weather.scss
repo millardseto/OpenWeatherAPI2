@@ -87,6 +87,12 @@ body {
   cursor:wait
 }
 
+.themes {
+  // minimize size of fieldset
+  display: inline-block;
+  margin-left: 5rem;
+}
+
 .sun {
   height: 2rem;
   padding-right: .5rem;

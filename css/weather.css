@@ -63,6 +63,10 @@ body {
 .wait {
   cursor: wait; }
 
+.themes {
+  display: inline-block;
+  margin-left: 5rem; }
+
 .sun {
   height: 2rem;
   padding-right: .5rem; }
