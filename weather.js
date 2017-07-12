@@ -146,19 +146,16 @@ function showUI(data){
 
 }
 
-
-function getWeatherFromAPI(){
-  // debug - use hardcoded data to avoid overusing api and getting blocked.
-  /*
-  data = JSON.parse('{"coord":{"lon":-122.32,"lat":47.68},"weather":[{"id":804,"main":"Clouds","description":"overcast clouds","icon":"04d"}],"base":"stations","main":{"temp":289.27,"pressure":1015,"humidity":87,"temp_min":288.15,"temp_max":290.15},"visibility":16093,"wind":{"speed":2.6,"deg":180},"clouds":{"all":90},"dt":1498490280,"sys":{"type":1,"id":2949,"message":0.0043,"country":"US","sunrise":1498479191,"sunset":1498536685},"id":7261476,"name":"Inglewood-Finn Hill","cod":200}');
-  showUI(data);
-  return;
-  */
-
+function cityClicked(){
   // get custom attributes from control
   let lat = this.getAttribute("data-lat");
   let lon = this.getAttribute("data-lon");
   offset = this.getAttribute("data-timeOffset");
+
+  getWeatherFromAPI(lat, lon, offset);
+}
+
+function getWeatherFromAPI(lat, lon, offset){
 
   params = {"lat":lat, "lon":lon, "APPID": appID};
   let query = queryBuilder(params);
@@ -172,21 +169,30 @@ function getWeatherFromAPI(){
   document.body.classList.add("wait");
 }
 
+function getWeatherFromAPImyLoc(){
+  const myLocation = document.querySelector('button.myLocation');
+  myLocation.disabled = true;
+  myLocation.classList.add("wait");
+  navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+}
+
 // lookup user location and save it as custom attributes on the button.
 function positionSuccess(position){
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
 
   const myLocation = document.querySelector('button.myLocation');
-  myLocation.setAttribute("data-lat", lat);
-  myLocation.setAttribute("data-lon", lon);
+  //myLocation.setAttribute("data-lat", lat);
+  //myLocation.setAttribute("data-lon", lon);
   myLocation.disabled = false;
   myLocation.classList.remove("wait");
 
   // determine offset hours by doing a lookup.
   let myOffset = new Date().getTimezoneOffset();// Seattle = -7 depending on DST
   myOffset = -myOffset/60; // convert to hours
-  myLocation.setAttribute("data-timeOffset", myOffset);
+  //myLocation.setAttribute("data-timeOffset", myOffset);
+
+  getWeatherFromAPI(lat, lon, offset);
 }
 
 function positionError(failure){
@@ -221,14 +227,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const london = document.querySelector('button.london');
   const seattle = document.querySelector('button.seattle');
   const myLocation = document.querySelector('button.myLocation');
-  myLocation.disabled = true;
-  myLocation.classList.add("wait");
 
   const cool = document.querySelector('#cool');
   const warm = document.querySelector('#warm');
   const dark = document.querySelector('#dark');
 
   // getCurrentPosition doesnt always work on local machine, hardcode test values
+  /*
   if (debug){
     // 47.5721227,-121.9972376
     myLocation.setAttribute("data-lat", 47.5721227);
@@ -237,11 +242,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // get user lat/lon now and set custom attributes on the myLocation button.
     navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
   }
+  */
 
   // event handlers
-  london.addEventListener('click', getWeatherFromAPI);
-  seattle.addEventListener('click', getWeatherFromAPI);
-  myLocation.addEventListener('click', getWeatherFromAPI);
+  london.addEventListener('click', cityClicked);
+  seattle.addEventListener('click', cityClicked);
+  myLocation.addEventListener('click', getWeatherFromAPImyLoc);
 
   cool.addEventListener('click', setTheme);
   warm.addEventListener('click', setTheme);
