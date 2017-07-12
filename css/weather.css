@@ -3,9 +3,10 @@ button {
   width: 8rem;
   margin-right: 3rem;
   margin-bottom: 1rem;
-  border-radius: 10%;
-  transition: box-shadow 1s; }
+  border-radius: 5%;
+  transition: box-shadow 1s, background-color 1s; }
   button:hover {
+    background-color: #1e5799;
     color: white;
     box-shadow: 5px 5px 5px #888888; }
   button:active {

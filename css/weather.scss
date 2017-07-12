@@ -7,11 +7,12 @@ button {
   width: 8rem;
   margin-right: 3rem;
   margin-bottom: 1rem;
-  border-radius: 10%;
+  border-radius: 5%;
 
-  transition: box-shadow 1s;
+  transition: box-shadow 1s, background-color 1s;
 
   &:hover {
+    background-color: $background-color;
     color: $hover-color;
     box-shadow: $shadow;
   }
