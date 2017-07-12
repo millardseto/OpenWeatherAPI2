@@ -152,10 +152,10 @@ function cityClicked(){
   let lon = this.getAttribute("data-lon");
   offset = this.getAttribute("data-timeOffset");
 
-  getWeatherFromAPI(lat, lon, offset);
+  getWeatherFromAPI(lat, lon);
 }
 
-function getWeatherFromAPI(lat, lon, offset){
+function getWeatherFromAPI(lat, lon){
 
   params = {"lat":lat, "lon":lon, "APPID": appID};
   let query = queryBuilder(params);
@@ -169,7 +169,18 @@ function getWeatherFromAPI(lat, lon, offset){
   document.body.classList.add("wait");
 }
 
-function getWeatherFromAPImyLoc(){
+function myLocationClicked(){
+  // check if we already have user location
+  var lat = sessionStorage.getItem('lat');
+  var lon = sessionStorage.getItem('lon');
+  offset = sessionStorage.getItem('offset');
+
+  if (lat) {
+    //bypass get current position (because it is slow and we already have location)
+    getWeatherFromAPI(lat, lon);
+    return;
+  }
+
   const myLocation = document.querySelector('button.myLocation');
   myLocation.disabled = true;
   myLocation.classList.add("wait");
@@ -181,6 +192,8 @@ function positionSuccess(position){
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
 
+
+
   const myLocation = document.querySelector('button.myLocation');
   //myLocation.setAttribute("data-lat", lat);
   //myLocation.setAttribute("data-lon", lon);
@@ -189,10 +202,15 @@ function positionSuccess(position){
 
   // determine offset hours by doing a lookup.
   let myOffset = new Date().getTimezoneOffset();// Seattle = -7 depending on DST
-  myOffset = -myOffset/60; // convert to hours
+  offset = -myOffset/60; // convert to hours
   //myLocation.setAttribute("data-timeOffset", myOffset);
 
-  getWeatherFromAPI(lat, lon, offset);
+  // save to session storage for performance
+  sessionStorage.setItem('lat', lat);
+  sessionStorage.setItem('lon', lon);
+  sessionStorage.setItem('offset', offset);
+
+  getWeatherFromAPI(lat, lon);
 }
 
 function positionError(failure){
@@ -247,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // event handlers
   london.addEventListener('click', cityClicked);
   seattle.addEventListener('click', cityClicked);
-  myLocation.addEventListener('click', getWeatherFromAPImyLoc);
+  myLocation.addEventListener('click', myLocationClicked);
 
   cool.addEventListener('click', setTheme);
   warm.addEventListener('click', setTheme);
