@@ -188,12 +188,17 @@ function myLocationClicked(){
 }
 
 function updateMyLocationClicked(){
+  this.classList.add("wait");
+  this.disabled = true;
   navigator.geolocation.getCurrentPosition(updatePositionSuccess, positionError);
 }
 
 function updatePositionSuccess(position){
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
+  const updateMyLocation = document.querySelector('button.updateMyLocation');
+  updateMyLocation.disabled = false;
+  updateMyLocation.classList.remove("wait");
 
   // determine offset hours by doing a lookup.
   let myOffset = new Date().getTimezoneOffset();// Seattle = -7 depending on DST
@@ -203,6 +208,16 @@ function updatePositionSuccess(position){
   localStorage.setItem('lat', lat);
   localStorage.setItem('lon', lon);
   localStorage.setItem('offset', offset);
+
+  showUserLatLon(lat, lon);
+}
+
+function showUserLatLon(lat, lon){
+    let lblLat = document.getElementById('myLat');
+    lblLat.innerText = `Lat: ${lat}`;
+
+    let lblLon = document.getElementById('myLon');
+    lblLon.innerText = `Lon: ${lon}`;
 }
 
 // lookup user location and save it as custom attributes on the button.
@@ -224,11 +239,7 @@ function positionSuccess(position){
   localStorage.setItem('lon', lon);
   localStorage.setItem('offset', offset);
 
-  let lblLat = document.getElementById('myLat');
-  lblLat.innerText = `Lat: ${lat}`;
-
-  let lblLon = document.getElementById('myLon');
-  lblLon.innerText = `Lon: ${lon}`;
+  showUserLatLon(lat, lon);
 
   getWeatherFromAPI(lat, lon);
 }
@@ -260,11 +271,7 @@ function setTheme(){
 function resetMyLocationClicked(){
   localStorage.clear();
 
-  let lblLat = document.getElementById('myLat');
-  lblLat.innerText = `Lat: `;
-
-  let lblLon = document.getElementById('myLon');
-  lblLon.innerText = `Lon: `;
+  showUserLatLon("","");
 }
 
 
@@ -282,17 +289,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const warm = document.querySelector('#warm');
   const dark = document.querySelector('#dark');
 
-  // getCurrentPosition doesnt always work on local machine, hardcode test values
-  /*
-  if (debug){
-    // 47.5721227,-121.9972376
-    myLocation.setAttribute("data-lat", 47.5721227);
-    myLocation.setAttribute("data-lon", -121.9972376);
-  } else {
-    // get user lat/lon now and set custom attributes on the myLocation button.
-    navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
-  }
-  */
 
   // event handlers
   london.addEventListener('click', cityClicked);
@@ -310,11 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
   offset = localStorage.getItem('offset');
 
   if (lat) {
-    let lblLat = document.getElementById('myLat');
-    lblLat.innerText = `Lat: ${lat}`;
-
-    let lblLon = document.getElementById('myLon');
-    lblLon.innerText = `Lon: ${lon}`;
+    showUserLatLon(lat, lon);
   }
 })
 
