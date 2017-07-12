@@ -105,4 +105,19 @@ body {
   background: linear-gradient(to bottom, #959595 0%, #0d0d0d 50%, #010101 51%, #0a0a0a 75%, #4e4e4e 100%);
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }
 
+.Seattle {
+  background: url("/media/seattle.jpg") no-repeat center fixed;
+  background-size: cover;
+  color: blue; }
+
+.London {
+  background: url("/media/london.jpg") no-repeat center fixed;
+  background-size: cover;
+  color: red; }
+
+.Issaquah {
+  background: url("/media/issaquah.jpg") no-repeat center fixed;
+  background-size: cover;
+  color: orange; }
+
 /*# sourceMappingURL=weather.css.map */

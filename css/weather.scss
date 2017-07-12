@@ -118,3 +118,15 @@ body {
 .dark {
   @include gradient($dark-color1, $dark-color2, $dark-color3, $dark-color4, $dark-color5);
 }
+
+@each $city, $attributes in $city-map {
+  // interpolating $city-map to .Seattle
+  .#{$city} {
+    $image: nth($attributes, 1);
+    $textColor: nth($attributes,2);
+
+    background: url($image) no-repeat center fixed;
+    background-size: cover;
+    color: $textColor;
+  }
+}

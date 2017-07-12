@@ -27,3 +27,10 @@ $dark-color2: #0d0d0d;
 $dark-color3: #010101;
 $dark-color4: #0a0a0a;
 $dark-color5: #4e4e4e;
+
+$city-map: (
+    // city image, sound, color
+  Seattle: ("/media/seattle.jpg", blue),
+  London: ("/media/london.jpg", red),
+  Issaquah: ("/media/issaquah.jpg", orange)
+);

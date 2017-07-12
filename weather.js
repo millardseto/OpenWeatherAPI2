@@ -135,8 +135,7 @@ function showUI(data){
   document.getElementById('tempUnit').innerText=getTempUnit();
   document.getElementById('windSpeed').innerText=convertSpeed(data.wind.speed);
   document.getElementById('humidity').innerHTML=`Humidity ${data.main.humidity}<sup>%</sup>`;
-  //document.getElementById('sunrise').innerText=calcTime(data.sys.sunrise, offset);
-  //document.getElementById('sunset').innerText=calcTime(data.sys.sunset, offset);
+  document.body.setAttribute("class", data.name);
 
   setDirection();
   setIcon();
