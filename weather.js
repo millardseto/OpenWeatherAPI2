@@ -4,7 +4,8 @@ var offset = 0;
 
 //const apiURL = "http://api.openweathermap.org/data/2.5/weather";
 // To host on github, use API Proxy
-const apiURL = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather";
+//const apiURL = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather";
+const apiURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/weather";
 const appID = "a90133976c46059fee7922fcf02e5dba";
 
 // BEGIN Converstion functions --------------------------
@@ -31,7 +32,8 @@ function convertSpeed(s){
 function reqListener () {
   //console.log(this.responseText);
   if (this.readyState == 4 && this.status == 200) {
-        data = JSON.parse(this.responseText);
+        //data = JSON.parse(this.responseText); // old response
+        data = JSON.parse(this.responseText).body; // new response
         document.body.classList.remove("wait");
         showUI(data);
     }
