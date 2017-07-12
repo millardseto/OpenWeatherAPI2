@@ -107,17 +107,17 @@ body {
   /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */ }
 
 .Seattle {
-  background: url("/media/seattle.jpg") no-repeat center fixed;
+  background: url("../media/seattle.jpg") no-repeat center fixed;
   background-size: cover;
   color: blue; }
 
 .London {
-  background: url("/media/london.jpg") no-repeat center fixed;
+  background: url("../media/london.jpg") no-repeat center fixed;
   background-size: cover;
   color: red; }
 
 .Issaquah {
-  background: url("/media/issaquah.jpg") no-repeat center fixed;
+  background: url("../media/issaquah.jpg") no-repeat center fixed;
   background-size: cover;
   color: orange; }
 
