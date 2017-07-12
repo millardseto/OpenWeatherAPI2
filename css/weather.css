@@ -64,7 +64,7 @@ body {
 .wait {
   cursor: wait; }
 
-.themes {
+.themes, .locationContainer {
   display: inline-block;
   margin-left: 5rem; }
 

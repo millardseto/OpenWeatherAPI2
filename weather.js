@@ -171,9 +171,9 @@ function getWeatherFromAPI(lat, lon){
 
 function myLocationClicked(){
   // check if we already have user location
-  var lat = sessionStorage.getItem('lat');
-  var lon = sessionStorage.getItem('lon');
-  offset = sessionStorage.getItem('offset');
+  var lat = localStorage.getItem('lat');
+  var lon = localStorage.getItem('lon');
+  offset = localStorage.getItem('offset');
 
   if (lat) {
     //bypass get current position (because it is slow and we already have location)
@@ -187,28 +187,48 @@ function myLocationClicked(){
   navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
 }
 
+function updateMyLocationClicked(){
+  navigator.geolocation.getCurrentPosition(updatePositionSuccess, positionError);
+}
+
+function updatePositionSuccess(position){
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+
+  // determine offset hours by doing a lookup.
+  let myOffset = new Date().getTimezoneOffset();// Seattle = -7 depending on DST
+  offset = -myOffset/60; // convert to hours
+
+  // save to session storage for performance
+  localStorage.setItem('lat', lat);
+  localStorage.setItem('lon', lon);
+  localStorage.setItem('offset', offset);
+}
+
 // lookup user location and save it as custom attributes on the button.
 function positionSuccess(position){
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
 
-
-
   const myLocation = document.querySelector('button.myLocation');
-  //myLocation.setAttribute("data-lat", lat);
-  //myLocation.setAttribute("data-lon", lon);
+
   myLocation.disabled = false;
   myLocation.classList.remove("wait");
 
   // determine offset hours by doing a lookup.
   let myOffset = new Date().getTimezoneOffset();// Seattle = -7 depending on DST
   offset = -myOffset/60; // convert to hours
-  //myLocation.setAttribute("data-timeOffset", myOffset);
 
   // save to session storage for performance
-  sessionStorage.setItem('lat', lat);
-  sessionStorage.setItem('lon', lon);
-  sessionStorage.setItem('offset', offset);
+  localStorage.setItem('lat', lat);
+  localStorage.setItem('lon', lon);
+  localStorage.setItem('offset', offset);
+
+  let lblLat = document.getElementById('myLat');
+  lblLat.innerText = `Lat: ${lat}`;
+
+  let lblLon = document.getElementById('myLon');
+  lblLon.innerText = `Lon: ${lon}`;
 
   getWeatherFromAPI(lat, lon);
 }
@@ -237,6 +257,16 @@ function setTheme(){
   }
 }
 
+function resetMyLocationClicked(){
+  localStorage.clear();
+
+  let lblLat = document.getElementById('myLat');
+  lblLat.innerText = `Lat: `;
+
+  let lblLon = document.getElementById('myLon');
+  lblLon.innerText = `Lon: `;
+}
+
 
 
 // When the dom is ready, wire up event handlers
@@ -245,6 +275,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const london = document.querySelector('button.london');
   const seattle = document.querySelector('button.seattle');
   const myLocation = document.querySelector('button.myLocation');
+  const updateMyLocation = document.querySelector('button.updateMyLocation');
+  const resetMyLocation = document.querySelector('button.resetMyLocation');
 
   const cool = document.querySelector('#cool');
   const warm = document.querySelector('#warm');
@@ -266,10 +298,24 @@ document.addEventListener("DOMContentLoaded", function () {
   london.addEventListener('click', cityClicked);
   seattle.addEventListener('click', cityClicked);
   myLocation.addEventListener('click', myLocationClicked);
+  updateMyLocation.addEventListener('click', updateMyLocationClicked);
+  resetMyLocation.addEventListener('click', resetMyLocationClicked);
 
   cool.addEventListener('click', setTheme);
   warm.addEventListener('click', setTheme);
   dark.addEventListener('click', setTheme);
+
+  var lat = localStorage.getItem('lat');
+  var lon = localStorage.getItem('lon');
+  offset = localStorage.getItem('offset');
+
+  if (lat) {
+    let lblLat = document.getElementById('myLat');
+    lblLat.innerText = `Lat: ${lat}`;
+
+    let lblLon = document.getElementById('myLon');
+    lblLon.innerText = `Lon: ${lon}`;
+  }
 })
 
 // Builds query parameters

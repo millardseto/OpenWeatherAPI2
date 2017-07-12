@@ -59,8 +59,17 @@
     <button type="button" name="london" class="london" data-lat="51.509865" data-lon="-0.118092"
       data-timeOffset="1">London</button>
     <button type="button" name="myLocation" class="myLocation">My Location</button>
+
     <script type="text/javascript" src="weather.js"></script>
   </div>
+
+  <fieldset class="locationContainer">
+    <legend>My Location</legend>
+    <p id="myLat"></p>
+    <p id="myLon"></p>
+    <button type="button" name="updateMyLocation" class="updateMyLocation">Update</button>
+    <button type="button" name="resetMyLocation" class="resetMyLocation">Reset</button>
+  </fieldset>
 
   <fieldset class="themes">
     <legend>Themes</legend>
