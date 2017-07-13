@@ -67,7 +67,7 @@ body {
 .themes, .locationContainer {
   display: inline-block;
   margin-left: 5rem;
-  background-color: rgba(20, 116, 202, 0.6); }
+  background-color: rgba(64, 64, 64, 0.6); }
 
 .sun {
   height: 2rem;
