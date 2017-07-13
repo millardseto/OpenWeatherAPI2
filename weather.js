@@ -154,6 +154,10 @@ function cityClicked(){
 
   getWeatherFromAPI(lat, lon);
 
+  showHideForcast(lat, lon);
+}
+
+function showHideForcast(lat, lon){
   let includeForcast = document.getElementById('forcast');
   if (includeForcast.checked){
     getWeatherForcast(lat, lon);
@@ -250,12 +254,7 @@ function myLocationClicked(){
     //bypass get current position (because it is slow and we already have location)
     getWeatherFromAPI(lat, lon);
 
-    let includeForcast = document.getElementById('forcast');
-    if (includeForcast.checked){
-      getWeatherForcast(lat, lon);
-    } else {
-      document.getElementById("chart_div").innerHTML=null;
-    }
+    showHideForcast(lat, lon);
     return;
   }
 
@@ -321,12 +320,7 @@ function positionSuccess(position){
 
   getWeatherFromAPI(lat, lon);
 
-  let includeForcast = document.getElementById('forcast');
-  if (includeForcast.checked){
-    getWeatherForcast(lat, lon);
-  } else {
-    document.getElementById("chart_div").innerHTML=null;
-  }
+  showHideForcast(lat, lon);
 }
 
 function positionError(failure){
@@ -401,7 +395,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const updateMyLocation = document.querySelector('button.updateMyLocation');
   const resetMyLocation = document.querySelector('button.resetMyLocation');
   const forcast = document.querySelector('input.forcast');
-  //forcast.disabled = true;
+  const lblForcast = document.getElementById("lblForecast");
+
+  // disabled because it wont work on github
+  forcast.disabled = true;
+  forcast.style.display = "none";
+  lblForcast.style.display = "none";
 
   const cool = document.querySelector('#cool');
   const warm = document.querySelector('#warm');
