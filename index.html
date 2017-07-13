@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Open Weather API</title>
   <link href="css/weather.css" rel="stylesheet" type="text/css">
 
@@ -48,6 +49,10 @@
     </div>
   </div>
 
+  <div id="chart_div">
+
+  </div>
+
   <div id="cityImage" class="">
 
   </div>
@@ -59,8 +64,7 @@
     <button type="button" name="london" class="london" data-lat="51.509865" data-lon="-0.118092"
       data-timeOffset="1">London</button>
     <button type="button" name="myLocation" class="myLocation">My Location</button>
-
-    <script type="text/javascript" src="weather.js"></script>
+    <input type="checkbox" name="forcast" class="forcast" id="forcast">Include Forcast
   </div>
 
   <fieldset class="locationContainer">
@@ -84,6 +88,12 @@
     <label for="dark">Dark</label>
   </fieldset>
 
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="weather.js"></script>
 </body>
 
 </html>

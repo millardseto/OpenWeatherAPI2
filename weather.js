@@ -1,4 +1,5 @@
 var data;
+var forcastData;
 
 var offset = 0;
 
@@ -7,6 +8,9 @@ var offset = 0;
 //const apiURL = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather";
 const apiURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/weather";
 const appID = "a90133976c46059fee7922fcf02e5dba";
+
+const apiForcastURL = "http://api.openweathermap.org/data/2.5/forecast";
+//const apiForcastURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/forcast";
 
 // BEGIN Converstion functions --------------------------
 function kelvinToFarenhheit(k){
@@ -70,10 +74,6 @@ function setIcon(){
   iconDiv.appendChild(icon2);
 }
 
-function getTimeFromUTC(utc){
-  var d = new Date(1000*utc);
-  return d.toTimeString();
-}
 
 // function to calculate local time
 // in a different city
@@ -93,7 +93,7 @@ function calcTime(utc, offset) {
     nd = new Date(utc + (3600000*offset));
 
     // return time as a string
-    return nd.toLocaleTimeString();
+    return nd.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
 
 }
 
@@ -153,6 +153,71 @@ function cityClicked(){
   offset = this.getAttribute("data-timeOffset");
 
   getWeatherFromAPI(lat, lon);
+
+  let includeForcast = document.getElementById('forcast');
+  if (includeForcast.checked){
+    getWeatherForcast(lat, lon);
+  } else {
+    document.getElementById("chart_div").innerHTML=null;
+  }
+}
+
+function forcastLoad(){
+// xxx
+  if (this.readyState == 4 && this.status == 200) {
+        forcastData = JSON.parse(this.responseText);
+        document.body.classList.remove("wait");
+        showForcastUI(forcastData);
+    }
+}
+
+function showForcastUI(forcastData){
+  drawChart();
+
+  // for(let i=0; i<forcastData.cnt; i++) {
+  //   //console.log(w.weather[0].main);
+  //   let div = document.createElement("div");
+  //   // xxx
+  //   let w = forcastData.list[i];
+  //
+  //   // Set the weather image
+  //
+  //   let icon = document.createElement('img');
+  //   let iconSource = `./icons/${w.weather[0].icon}.png`;
+  //   icon.setAttribute("src", iconSource);
+  //   icon.setAttribute("alt", w.weather[0].description);
+  //   icon.setAttribute("class", "icon");
+  //
+  //
+  //   let temp = document.createTextNode(w.main.temp);
+  //   let date = document.createTextNode(w.dt_txt);
+  //
+  //   //div.appendChild(icon);
+  //   div.appendChild(temp);
+  //   div.appendChild(date);
+  //
+  //   document.body.appendChild(div);
+  // }
+}
+
+function getWeatherForcast(lat, lon) {
+
+    params = {"lat":lat, "lon":lon, "APPID": appID, "units":"imperial"};
+    let query = queryBuilder(params);
+
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", forcastLoad);
+    oReq.addEventListener("error", weatherApiError);
+    let apiCall = apiForcastURL + query;
+    oReq.open("GET", apiCall, true);
+    oReq.send();
+
+    document.body.classList.add("wait");
+}
+
+
+function getForcastClicked(){
+
 }
 
 function getWeatherFromAPI(lat, lon){
@@ -174,6 +239,7 @@ function weatherApiError(){
   console.log("OpenWeatherMap API Failed");
 }
 
+
 function myLocationClicked(){
   // check if we already have user location
   var lat = localStorage.getItem('lat');
@@ -183,6 +249,13 @@ function myLocationClicked(){
   if (lat) {
     //bypass get current position (because it is slow and we already have location)
     getWeatherFromAPI(lat, lon);
+
+    let includeForcast = document.getElementById('forcast');
+    if (includeForcast.checked){
+      getWeatherForcast(lat, lon);
+    } else {
+      document.getElementById("chart_div").innerHTML=null;
+    }
     return;
   }
 
@@ -247,6 +320,13 @@ function positionSuccess(position){
   showUserLatLon(lat, lon);
 
   getWeatherFromAPI(lat, lon);
+
+  let includeForcast = document.getElementById('forcast');
+  if (includeForcast.checked){
+    getWeatherForcast(lat, lon);
+  } else {
+    document.getElementById("chart_div").innerHTML=null;
+  }
 }
 
 function positionError(failure){
@@ -279,16 +359,49 @@ function resetMyLocationClicked(){
   showUserLatLon("","");
 }
 
+function drawChart(){
+  var data = new google.visualization.DataTable();
+      data.addColumn('string', 'X');
+      data.addColumn('number', 'Temp');
+
+      // build an array of arrays
+      var rows = new Array();
+      for (var j = 0; j < 7 /*forcastData.cnt*/; j++) {
+        let w = forcastData.list[j];
+        // push an array containing [level description, total count of level]
+        rows.push( [calcTime(w.dt, offset), w.main.temp] );
+      }
+
+
+      data.addRows(rows);
+
+      var options = {
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'Temperature'
+        },
+        colors: ['#a52714', '#097138']
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
 
 
 // When the dom is ready, wire up event handlers
 document.addEventListener("DOMContentLoaded", function () {
+  google.charts.load('current', {packages: ['corechart', 'line']});
+
   // button controls
   const london = document.querySelector('button.london');
   const seattle = document.querySelector('button.seattle');
   const myLocation = document.querySelector('button.myLocation');
   const updateMyLocation = document.querySelector('button.updateMyLocation');
   const resetMyLocation = document.querySelector('button.resetMyLocation');
+  const forcast = document.querySelector('input.forcast');
+  //forcast.disabled = true;
 
   const cool = document.querySelector('#cool');
   const warm = document.querySelector('#warm');
@@ -301,6 +414,7 @@ document.addEventListener("DOMContentLoaded", function () {
   myLocation.addEventListener('click', myLocationClicked);
   updateMyLocation.addEventListener('click', updateMyLocationClicked);
   resetMyLocation.addEventListener('click', resetMyLocationClicked);
+  forcast.addEventListener('click', getForcastClicked);
 
   cool.addEventListener('click', setTheme);
   warm.addEventListener('click', setTheme);
