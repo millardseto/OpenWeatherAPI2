@@ -1,5 +1,5 @@
 var data;
-const debug = false;
+
 var offset = 0;
 
 //const apiURL = "http://api.openweathermap.org/data/2.5/weather";
@@ -162,11 +162,16 @@ function getWeatherFromAPI(lat, lon){
 
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", reqListener);
+  oReq.addEventListener("error", weatherApiError);
   let apiCall = apiURL + query;
-  oReq.open("GET", apiCall);
+  oReq.open("GET", apiCall, true);
   oReq.send();
 
   document.body.classList.add("wait");
+}
+
+function weatherApiError(){
+  console.log("OpenWeatherMap API Failed");
 }
 
 function myLocationClicked(){
