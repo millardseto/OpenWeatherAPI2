@@ -426,6 +426,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (lat) {
     showUserLatLon(lat, lon);
   }
+
+  seattle.click();
 })
 
 // Builds query parameters
