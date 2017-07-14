@@ -449,76 +449,76 @@ function drawChart(forcastData) {
   }
 
 
-  /* -----------------------------------------------------------------------------
-   * CONVERSION FUNCTIONS
-   * -----------------------------------------------------------------------------*/
-  function kelvinToFarenhheit(k) {
-    return (((k - 273.15) * 1.8) + 32).toFixed(1);
+/* -----------------------------------------------------------------------------
+ * CONVERSION FUNCTIONS
+ * -----------------------------------------------------------------------------*/
+function kelvinToFarenhheit(k) {
+  return (((k - 273.15) * 1.8) + 32).toFixed(1);
+}
+
+function getTempUnit() {
+  return '°F';
+}
+
+function mpsToMPH(s) {
+  // 1 mps = 2.23694 mph
+  return (s * 2.23694).toFixed(2);
+}
+
+function convertSpeed(s) {
+  return mpsToMPH(s) + ' MPH';
+}
+
+// function to calculate local time
+// in a different city
+// given the city's UTC offset
+function calcTime(utc, offset) {
+
+  // create Date object for current location
+  d = new Date(1000 * utc);
+
+  // convert to msec
+  // add local time zone offset
+  // get UTC time in msec
+  utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+  // create new Date object for different city
+  // using supplied offset
+  nd = new Date(utc + (3600000 * offset));
+
+  // return time as a string
+  return nd.toLocaleTimeString(navigator.language, {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+
+/* -----------------------------------------------------------------------------
+ * UTILITY FUNCTIONS
+ * -----------------------------------------------------------------------------*/
+function saveSelection(lat, lon, offset){
+ currentLat = lat;
+ currentLon = lon;
+ currentOffset = offset;
+}
+
+// Builds query parameters
+// input {name: "elvis", location: "seattle"}
+// output: ?name=elvis&location=seattle
+function queryBuilder(queryObj) {
+  let holder = [];
+
+  // loop through key values
+  for (let key in queryObj) {
+
+    // make each one into "key=value", encode to handle special characters like &
+    let convert = `${encodeURIComponent(key)}=${queryObj[encodeURIComponent(key)]}`
+
+    //console.log(convert);
+    holder.push(convert);
   }
 
-  function getTempUnit() {
-    return '°F';
-  }
-
-  function mpsToMPH(s) {
-    // 1 mps = 2.23694 mph
-    return (s * 2.23694).toFixed(2);
-  }
-
-  function convertSpeed(s) {
-    return mpsToMPH(s) + ' MPH';
-  }
-
-  // function to calculate local time
-  // in a different city
-  // given the city's UTC offset
-  function calcTime(utc, offset) {
-
-    // create Date object for current location
-    d = new Date(1000 * utc);
-
-    // convert to msec
-    // add local time zone offset
-    // get UTC time in msec
-    utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-
-    // create new Date object for different city
-    // using supplied offset
-    nd = new Date(utc + (3600000 * offset));
-
-    // return time as a string
-    return nd.toLocaleTimeString(navigator.language, {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  }
-
-
-  /* -----------------------------------------------------------------------------
-   * UTILITY FUNCTIONS
-   * -----------------------------------------------------------------------------*/
-   function saveSelection(lat, lon, offset){
-     currentLat = lat;
-     currentLon = lon;
-     currentOffset = offset;
-   }
-
-  // Builds query parameters
-  // input {name: "elvis", location: "seattle"}
-  // output: ?name=elvis&location=seattle
-  function queryBuilder(queryObj) {
-    let holder = [];
-
-    // loop through key values
-    for (let key in queryObj) {
-
-      // make each one into "key=value", encode to handle special characters like &
-      let convert = `${encodeURIComponent(key)}=${queryObj[encodeURIComponent(key)]}`
-
-      //console.log(convert);
-      holder.push(convert);
-    }
-
-    // return value
-    return '?' + holder.join("&");
-  }
+  // return value
+  return '?' + holder.join("&");
+}
