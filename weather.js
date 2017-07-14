@@ -200,6 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
       dark.addEventListener('click', setTheme);
 
       offset = localStorage.getItem('offset');
+      showUserLatLon();
 
       // default a city so it looks better.
       seattle.click();
