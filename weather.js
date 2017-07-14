@@ -3,19 +3,21 @@ var forcastData;
 
 var offset = 0;
 
-//const apiURL = "http://api.openweathermap.org/data/2.5/weather";
-// To host on github, use API Proxy
-//const apiURL = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather";
-const apiURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/weather";
 const appID = "a90133976c46059fee7922fcf02e5dba";
+
+// To host on github, use API Proxy
+//const apiURL = "http://api.openweathermap.org/data/2.5/weather";
+const apiURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/weather";
 
 //const apiForcastURL = "http://api.openweathermap.org/data/2.5/forecast";
 const apiForcastURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/forecast";
 
 
+/* -----------------------------------------------------------------------------
+ * WEATHER API
+ * -----------------------------------------------------------------------------*/
 
-
-// WEATHER API -----------------------------------------------------------------
+// calls weather API
 function getWeatherFromAPI(lat, lon) {
   params = {
     "lat": lat,
@@ -50,7 +52,9 @@ function weatherAPIError() {
 }
 
 
-// WEATHER UI --------------------------------------------------------------------------
+/* -----------------------------------------------------------------------------
+ * WEATHER UI
+ * -----------------------------------------------------------------------------*/
 
 // show response data in the UI
 function showUI(data) {
@@ -132,7 +136,9 @@ function setSunSetIcon() {
 }
 
 
-// OTHER EVENT HANDLERS --------------------------------------------------------
+/* -----------------------------------------------------------------------------
+ * OTHER EVENT HANDLERS
+ * -----------------------------------------------------------------------------*/
 
 function cityClicked() {
   // get custom attributes from control
@@ -166,7 +172,6 @@ function setTheme() {
 }
 
 
-
 // When the dom is ready, wire up event handlers
 document.addEventListener("DOMContentLoaded", function() {
       google.charts.load('current', {
@@ -181,13 +186,6 @@ document.addEventListener("DOMContentLoaded", function() {
       const resetMyLocation = document.querySelector('button.resetMyLocation');
       const forcast = document.querySelector('input.forcast');
       const lblForcast = document.getElementById("lblForecast");
-
-      /*
-        forcast.disabled = true;
-        forcast.style.display = "none";
-        lblForcast.style.display = "none";
-      */
-
 
       const cool = document.querySelector('#cool');
       const warm = document.querySelector('#warm');
@@ -220,8 +218,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+/* -----------------------------------------------------------------------------
+ * MY LOCATION WEATHER
+ * -----------------------------------------------------------------------------*/
 
-// MY LOCATION WEATHER ---------------------------------------------------------
 function myLocationClicked() {
   // check if we already have user location
   var lat = localStorage.getItem('lat');
@@ -273,7 +273,11 @@ function positionError(failure) {
   console.log("message: " + failure.message);
 }
 
-// USER LOCATION LAT/LON -------------------------------------------------------
+
+/* -----------------------------------------------------------------------------
+ * USER GEOLOCATION LAT / LON
+ * -----------------------------------------------------------------------------*/
+
 function updateMyLocationClicked() {
   this.classList.add("wait");
   this.disabled = true;
@@ -314,9 +318,12 @@ function resetMyLocationClicked() {
   showUserLatLon("", "");
 }
 
-// FORCAST ---------------------------------------------------------------------
 
-// Call weather API
+/* -----------------------------------------------------------------------------
+ * FORCAST
+ * -----------------------------------------------------------------------------*/
+
+// get forcast from weather API
 function getWeatherForcast(lat, lon) {
 
   params = {
@@ -325,6 +332,7 @@ function getWeatherForcast(lat, lon) {
     "APPID": appID,
     "units": "imperial"
   };
+
   let query = queryBuilder(params);
 
   var oReq = new XMLHttpRequest();
@@ -428,7 +436,9 @@ function drawChart(forcastData) {
   }
 
 
-  // BEGIN Converstion functions -----------------------------------------------
+  /* -----------------------------------------------------------------------------
+   * CONVERSION FUNCTIONS
+   * -----------------------------------------------------------------------------*/
   function kelvinToFarenhheit(k) {
     return (((k - 273.15) * 1.8) + 32).toFixed(1);
   }
@@ -471,10 +481,9 @@ function drawChart(forcastData) {
   }
 
 
-
-
-  // UTILITY FUNCTIONS -----------------------------------------------------------
-
+  /* -----------------------------------------------------------------------------
+   * UTILITY FUNCTIONS
+   * -----------------------------------------------------------------------------*/
 
   // Builds query parameters
   // input {name: "elvis", location: "seattle"}
