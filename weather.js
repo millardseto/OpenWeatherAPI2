@@ -1,5 +1,3 @@
-var forcastData;
-
 var offset = 0;
 
 const appID = "a90133976c46059fee7922fcf02e5dba";
@@ -345,7 +343,7 @@ function getWeatherForcast(lat, lon) {
 // Forecast Load event handler
 function forecastLoad() {
   if (this.readyState == 4 && this.status == 200) {
-    forcastData = JSON.parse(this.responseText).body;
+    let forcastData = JSON.parse(this.responseText).body;
     document.body.classList.remove("wait");
     showForcastUI(forcastData);
   }
