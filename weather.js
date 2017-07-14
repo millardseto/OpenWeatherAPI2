@@ -61,11 +61,6 @@ document.addEventListener("DOMContentLoaded", function() {
         myLocation.click();
       }
 
-
-
-
-
-
     }); // end add event listener
 
 
