@@ -62,6 +62,9 @@ function reqListener() {
   }
 }
 
+function weatherApiError() {
+  console.log("OpenWeatherMap API Failed");
+}
 // END WEATHER API -------------------------------------------------------------
 
 // show wind direction as an arrow showing the direction (versus showing degrees)
@@ -180,16 +183,6 @@ function cityClicked() {
 
   showHideForcast(lat, lon);
 }
-
-
-
-
-
-function weatherApiError() {
-  console.log("OpenWeatherMap API Failed");
-}
-
-
 
 
 function setTheme() {
