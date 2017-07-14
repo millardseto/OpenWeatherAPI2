@@ -1,4 +1,4 @@
-var offset = 0;
+let offset = 0;
 
 const appID = "a90133976c46059fee7922fcf02e5dba";
 
@@ -214,8 +214,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function myLocationClicked() {
   // check if we already have user location
-  var lat = localStorage.getItem('lat');
-  var lon = localStorage.getItem('lon');
+  let lat = localStorage.getItem('lat');
+  let lon = localStorage.getItem('lon');
   offset = localStorage.getItem('offset');
 
   if (lat) {
@@ -295,8 +295,8 @@ function updatePositionSuccess(position) {
 
 // show user lat / lon in UI from localStorage
 function showUserLatLon() {
-  var lat = localStorage.getItem('lat');
-  var lon = localStorage.getItem('lon');
+  let lat = localStorage.getItem('lat');
+  let lon = localStorage.getItem('lon');
 
   if (!lat) {
     lat = "";
@@ -338,7 +338,7 @@ function getWeatherForcast(lat, lon) {
 
   let query = queryBuilder(params);
 
-  var oReq = new XMLHttpRequest();
+  let oReq = new XMLHttpRequest();
   oReq.addEventListener("load", forecastLoad);
   oReq.addEventListener("error", forecastError);
   let apiCall = apiForcastURL + query;
@@ -409,22 +409,21 @@ function getForcastClicked() {
 
 // show forcast temperature data as a chart
 function drawChart(forcastData) {
-  var data = new google.visualization.DataTable();
+  let data = new google.visualization.DataTable();
   data.addColumn('string', 'X');
   data.addColumn('number', 'Temp');
 
   // build an array of arrays
-  var rows = new Array();
-  for (var j = 0; j < 7 /*forcastData.cnt*/ ; j++) {
+  let rows = new Array();
+  for (let j = 0; j < 7 /*forcastData.cnt*/;j++) {
     let w = forcastData.list[j];
     // push an array containing [level description, total count of level]
     rows.push([calcTime(w.dt, offset), w.main.temp]);
   }
 
-
   data.addRows(rows);
 
-  var options = {
+  let options = {
     hAxis: {
       title: 'Time'
     },
@@ -434,7 +433,7 @@ function drawChart(forcastData) {
     colors: ['#a52714', '#097138']
   };
 
-  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+  let chart = new google.visualization.LineChart(document.getElementById('chart_div'));
   chart.draw(data, options);
   }
 
