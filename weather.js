@@ -199,13 +199,7 @@ document.addEventListener("DOMContentLoaded", function() {
       warm.addEventListener('click', setTheme);
       dark.addEventListener('click', setTheme);
 
-      var lat = localStorage.getItem('lat');
-      var lon = localStorage.getItem('lon');
       offset = localStorage.getItem('offset');
-
-      if (lat) {
-        showUserLatLon(lat, lon);
-      }
 
       // default a city so it looks better.
       seattle.click();
@@ -256,7 +250,7 @@ function positionSuccess(position) {
   localStorage.setItem('lon', lon);
   localStorage.setItem('offset', offset);
 
-  showUserLatLon(lat, lon);
+  showUserLatLon();
 
   getWeatherFromAPI(lat, lon);
 
@@ -295,22 +289,35 @@ function updatePositionSuccess(position) {
   localStorage.setItem('lon', lon);
   localStorage.setItem('offset', offset);
 
-  showUserLatLon(lat, lon);
+  showUserLatLon();
 }
 
-// show user lat / lon in UI
-function showUserLatLon(lat, lon) {
+// show user lat / lon in UI from localStorage
+function showUserLatLon() {
+  var lat = localStorage.getItem('lat');
+  var lon = localStorage.getItem('lon');
+
+  if (!lat) {
+    lat = "";
+  }
+
+  if (!lon) {
+    lon = "";
+  }
+
   let lblLat = document.getElementById('myLat');
   lblLat.innerText = `Lat: ${lat}`;
 
   let lblLon = document.getElementById('myLon');
   lblLon.innerText = `Lon: ${lon}`;
+
+
 }
 
 // clears the saved user location and clears lat/lon in UI
 function resetMyLocationClicked() {
   localStorage.clear();
-  showUserLatLon("", "");
+  showUserLatLon();
 }
 
 
