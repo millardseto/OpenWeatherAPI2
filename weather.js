@@ -32,6 +32,25 @@ function convertSpeed(s) {
 // END conversion functions ----------------------------------------------------
 
 
+// WEATHER API -----------------------------------------------------------------
+function getWeatherFromAPI(lat, lon) {
+  params = {
+    "lat": lat,
+    "lon": lon,
+    "APPID": appID
+  };
+  let query = queryBuilder(params);
+
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", reqListener);
+  oReq.addEventListener("error", weatherApiError);
+  let apiCall = apiURL + query;
+  oReq.open("GET", apiCall, true);
+  oReq.send();
+
+  document.body.classList.add("wait");
+}
+
 // callback for api request
 function reqListener() {
   //console.log(this.responseText);
@@ -42,6 +61,8 @@ function reqListener() {
     showUI(data);
   }
 }
+
+// END WEATHER API -------------------------------------------------------------
 
 // show wind direction as an arrow showing the direction (versus showing degrees)
 function setDirection() {
@@ -162,23 +183,7 @@ function cityClicked() {
 
 
 
-function getWeatherFromAPI(lat, lon) {
-  params = {
-    "lat": lat,
-    "lon": lon,
-    "APPID": appID
-  };
-  let query = queryBuilder(params);
 
-  var oReq = new XMLHttpRequest();
-  oReq.addEventListener("load", reqListener);
-  oReq.addEventListener("error", weatherApiError);
-  let apiCall = apiURL + query;
-  oReq.open("GET", apiCall, true);
-  oReq.send();
-
-  document.body.classList.add("wait");
-}
 
 function weatherApiError() {
   console.log("OpenWeatherMap API Failed");
