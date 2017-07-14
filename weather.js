@@ -164,7 +164,7 @@ function setSunRiseIcon(data) {
   sunrise.setAttribute("class", "sun");
   sunrise.setAttribute("alt", "sunrise image");
   let container = document.getElementById("sunriseContainer");
-  container.innerHTML = null;
+  container.innerHTML = "";
   container.appendChild(sunrise);
 
   let riseTime = document.createElement("span");
@@ -180,7 +180,7 @@ function setSunSetIcon(data) {
   sunset.setAttribute("class", "sun");
   sunset.setAttribute("alt", "sunset image");
   let container = document.getElementById("sunsetContainer");
-  container.innerHTML = null;
+  container.innerHTML = "";
   container.appendChild(sunset);
 
   let setTime = document.createElement("span");
@@ -435,7 +435,7 @@ function showHideForcast(lat, lon) {
   if (includeForcast.checked) {
     getWeatherForcast(lat, lon);
   } else {
-    document.getElementById("chart_div").innerHTML = null;
+    document.getElementById("chart_div").innerHTML = "";
   }
 }
 
