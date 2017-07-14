@@ -148,7 +148,6 @@ function cityClicked() {
 
   saveSelection(lat, lon, offset);
 
-
   getWeatherFromAPI(lat, lon);
 
   showHideForcast(lat, lon);
@@ -321,8 +320,6 @@ function showUserLatLon() {
 
   let lblLon = document.getElementById('myLon');
   lblLon.innerText = `Lon: ${lon}`;
-
-
 }
 
 // clears the saved user location and clears lat/lon in UI
