@@ -281,7 +281,36 @@ function myLocationClicked() {
   navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
 }
 
+// lookup user location and save it as custom attributes on the button.
+function positionSuccess(position) {
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
 
+  const myLocation = document.querySelector('button.myLocation');
+
+  myLocation.disabled = false;
+  myLocation.classList.remove("wait");
+
+  // determine offset hours by doing a lookup.
+  let myOffset = new Date().getTimezoneOffset(); // Seattle = -7 depending on DST
+  offset = -myOffset / 60; // convert to hours
+
+  // save to session storage for performance
+  localStorage.setItem('lat', lat);
+  localStorage.setItem('lon', lon);
+  localStorage.setItem('offset', offset);
+
+  showUserLatLon(lat, lon);
+
+  getWeatherFromAPI(lat, lon);
+
+  showHideForcast(lat, lon);
+}
+
+function positionError(failure) {
+  console.log("code: " + failure.code);
+  console.log("message: " + failure.message);
+}
 
 // USER LOCATION LAT/LON -------------------------------------------------------
 function updateMyLocationClicked() {
@@ -309,10 +338,7 @@ function updatePositionSuccess(position) {
   showUserLatLon(lat, lon);
 }
 
-function positionError(failure) {
-  console.log("code: " + failure.code);
-  console.log("message: " + failure.message);
-}
+
 
 function showUserLatLon(lat, lon) {
   let lblLat = document.getElementById('myLat');
@@ -322,31 +348,6 @@ function showUserLatLon(lat, lon) {
   lblLon.innerText = `Lon: ${lon}`;
 }
 
-// lookup user location and save it as custom attributes on the button.
-function positionSuccess(position) {
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-
-  const myLocation = document.querySelector('button.myLocation');
-
-  myLocation.disabled = false;
-  myLocation.classList.remove("wait");
-
-  // determine offset hours by doing a lookup.
-  let myOffset = new Date().getTimezoneOffset(); // Seattle = -7 depending on DST
-  offset = -myOffset / 60; // convert to hours
-
-  // save to session storage for performance
-  localStorage.setItem('lat', lat);
-  localStorage.setItem('lon', lon);
-  localStorage.setItem('offset', offset);
-
-  showUserLatLon(lat, lon);
-
-  getWeatherFromAPI(lat, lon);
-
-  showHideForcast(lat, lon);
-}
 
 
 function resetMyLocationClicked() {
