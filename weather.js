@@ -12,24 +12,7 @@ const appID = "a90133976c46059fee7922fcf02e5dba";
 //const apiForcastURL = "http://api.openweathermap.org/data/2.5/forecast";
 const apiForcastURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/forecast";
 
-// BEGIN Converstion functions -------------------------------------------------
-function kelvinToFarenhheit(k) {
-  return (((k - 273.15) * 1.8) + 32).toFixed(1);
-}
 
-function getTempUnit() {
-  return '°F';
-}
-
-function mpsToMPH(s) {
-  // 1 mps = 2.23694 mph
-  return (s * 2.23694).toFixed(2);
-}
-
-function convertSpeed(s) {
-  return mpsToMPH(s) + ' MPH';
-}
-// END conversion functions ----------------------------------------------------
 
 
 // WEATHER API -----------------------------------------------------------------
@@ -99,30 +82,6 @@ function setIcon() {
 }
 
 
-// function to calculate local time
-// in a different city
-// given the city's UTC offset
-function calcTime(utc, offset) {
-
-  // create Date object for current location
-  d = new Date(1000 * utc);
-
-  // convert to msec
-  // add local time zone offset
-  // get UTC time in msec
-  utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-
-  // create new Date object for different city
-  // using supplied offset
-  nd = new Date(utc + (3600000 * offset));
-
-  // return time as a string
-  return nd.toLocaleTimeString(navigator.language, {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-
-}
 
 function setSunRiseIcon() {
   let sunrise = document.createElement("img");
@@ -338,8 +297,7 @@ function updatePositionSuccess(position) {
   showUserLatLon(lat, lon);
 }
 
-
-
+// show user lat / lon in UI
 function showUserLatLon(lat, lon) {
   let lblLat = document.getElementById('myLat');
   lblLat.innerText = `Lat: ${lat}`;
@@ -348,15 +306,13 @@ function showUserLatLon(lat, lon) {
   lblLon.innerText = `Lon: ${lon}`;
 }
 
-
-
+// clears the saved user location and clears lat/lon in UI
 function resetMyLocationClicked() {
   localStorage.clear();
-
   showUserLatLon("", "");
 }
 
-// FORCAST -----------------------------------------------------------------
+// FORCAST ---------------------------------------------------------------------
 
 // Call weather API
 function getWeatherForcast(lat, lon) {
@@ -468,6 +424,51 @@ function drawChart(forcastData) {
   var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
   chart.draw(data, options);
   }
+
+
+  // BEGIN Converstion functions -----------------------------------------------
+  function kelvinToFarenhheit(k) {
+    return (((k - 273.15) * 1.8) + 32).toFixed(1);
+  }
+
+  function getTempUnit() {
+    return '°F';
+  }
+
+  function mpsToMPH(s) {
+    // 1 mps = 2.23694 mph
+    return (s * 2.23694).toFixed(2);
+  }
+
+  function convertSpeed(s) {
+    return mpsToMPH(s) + ' MPH';
+  }
+  
+  // function to calculate local time
+  // in a different city
+  // given the city's UTC offset
+  function calcTime(utc, offset) {
+
+    // create Date object for current location
+    d = new Date(1000 * utc);
+
+    // convert to msec
+    // add local time zone offset
+    // get UTC time in msec
+    utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+    // create new Date object for different city
+    // using supplied offset
+    nd = new Date(utc + (3600000 * offset));
+
+    // return time as a string
+    return nd.toLocaleTimeString(navigator.language, {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+
 
 
   // UTILITY FUNCTIONS -----------------------------------------------------------
