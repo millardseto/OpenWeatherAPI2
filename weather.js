@@ -42,8 +42,8 @@ function getWeatherFromAPI(lat, lon) {
   let query = queryBuilder(params);
 
   var oReq = new XMLHttpRequest();
-  oReq.addEventListener("load", reqListener);
-  oReq.addEventListener("error", weatherApiError);
+  oReq.addEventListener("load", weatherAPILoad);
+  oReq.addEventListener("error", weatherAPIError);
   let apiCall = apiURL + query;
   oReq.open("GET", apiCall, true);
   oReq.send();
@@ -52,7 +52,7 @@ function getWeatherFromAPI(lat, lon) {
 }
 
 // callback for api request
-function reqListener() {
+function weatherAPILoad() {
   //console.log(this.responseText);
   if (this.readyState == 4 && this.status == 200) {
     //data = JSON.parse(this.responseText); // old response
@@ -62,7 +62,7 @@ function reqListener() {
   }
 }
 
-function weatherApiError() {
+function weatherAPIError() {
   console.log("OpenWeatherMap API Failed");
 }
 // END WEATHER API -------------------------------------------------------------
@@ -357,7 +357,30 @@ function resetMyLocationClicked() {
 }
 
 // FORCAST -----------------------------------------------------------------
-function forcastLoad() {
+
+// Call weather API
+function getWeatherForcast(lat, lon) {
+
+  params = {
+    "lat": lat,
+    "lon": lon,
+    "APPID": appID,
+    "units": "imperial"
+  };
+  let query = queryBuilder(params);
+
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", forecastLoad);
+  oReq.addEventListener("error", forecastError);
+  let apiCall = apiForcastURL + query;
+  oReq.open("GET", apiCall, true);
+  oReq.send();
+
+  document.body.classList.add("wait");
+}
+
+// Forecast Load event handler
+function forecastLoad() {
   if (this.readyState == 4 && this.status == 200) {
     forcastData = JSON.parse(this.responseText).body;
     document.body.classList.remove("wait");
@@ -365,7 +388,12 @@ function forcastLoad() {
   }
 }
 
+// Forecast Error event handler
+function forecastError() {
+  console.log("OpenWeatherMap API Failed calling forcast");
+}
 
+// Show forecast in UI
 function showForcastUI(forcastData) {
   drawChart(forcastData);
 
@@ -393,27 +421,6 @@ function showForcastUI(forcastData) {
   //
   //   document.body.appendChild(div);
   // }
-}
-
-
-function getWeatherForcast(lat, lon) {
-
-  params = {
-    "lat": lat,
-    "lon": lon,
-    "APPID": appID,
-    "units": "imperial"
-  };
-  let query = queryBuilder(params);
-
-  var oReq = new XMLHttpRequest();
-  oReq.addEventListener("load", forcastLoad);
-  oReq.addEventListener("error", weatherApiError);
-  let apiCall = apiForcastURL + query;
-  oReq.open("GET", apiCall, true);
-  oReq.send();
-
-  document.body.classList.add("wait");
 }
 
 // check if forcast requested and get it if necessary.
