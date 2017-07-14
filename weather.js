@@ -1,5 +1,10 @@
 let offset = 0;
 
+// keep track of user selection so optional forcast can be shown
+let currentLat = 0;
+let currentLon = 0;
+let currentOffset = 0;
+
 const appID = "a90133976c46059fee7922fcf02e5dba";
 
 // To host on github, use API Proxy
@@ -141,6 +146,9 @@ function cityClicked() {
   let lon = this.getAttribute("data-lon");
   offset = this.getAttribute("data-timeOffset");
 
+  saveSelection(lat, lon, offset);
+
+
   getWeatherFromAPI(lat, lon);
 
   showHideForcast(lat, lon);
@@ -219,6 +227,8 @@ function myLocationClicked() {
   offset = localStorage.getItem('offset');
 
   if (lat) {
+    saveSelection(lat, lon, offset);
+
     //bypass get current position (because it is slow and we already have location)
     getWeatherFromAPI(lat, lon);
 
@@ -369,7 +379,7 @@ function showForcastUI(forcastData) {
   // for(let i=0; i<forcastData.cnt; i++) {
   //   //console.log(w.weather[0].main);
   //   let div = document.createElement("div");
-  //   // xxx
+  //
   //   let w = forcastData.list[i];
   //
   //   // Set the weather image
@@ -404,7 +414,8 @@ function showHideForcast(lat, lon) {
 
 // show forcast for current city
 function getForcastClicked() {
-    // to do
+  offset = currentOffset;
+  showHideForcast(currentLat, currentLon);
 }
 
 // show forcast temperature data as a chart
@@ -486,6 +497,11 @@ function drawChart(forcastData) {
   /* -----------------------------------------------------------------------------
    * UTILITY FUNCTIONS
    * -----------------------------------------------------------------------------*/
+   function saveSelection(lat, lon, offset){
+     currentLat = lat;
+     currentLon = lon;
+     currentOffset = offset;
+   }
 
   // Builds query parameters
   // input {name: "elvis", location: "seattle"}
