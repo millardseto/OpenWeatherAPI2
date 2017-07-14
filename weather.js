@@ -12,7 +12,7 @@ const appID = "a90133976c46059fee7922fcf02e5dba";
 //const apiForcastURL = "http://api.openweathermap.org/data/2.5/forecast";
 const apiForcastURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/forecast";
 
-// BEGIN Converstion functions --------------------------
+// BEGIN Converstion functions -------------------------------------------------
 function kelvinToFarenhheit(k) {
   return (((k - 273.15) * 1.8) + 32).toFixed(1);
 }
@@ -29,7 +29,7 @@ function mpsToMPH(s) {
 function convertSpeed(s) {
   return mpsToMPH(s) + ' MPH';
 }
-// END conversion functions
+// END conversion functions ----------------------------------------------------
 
 
 // callback for api request
@@ -163,7 +163,6 @@ function cityClicked() {
 
 
 function getWeatherFromAPI(lat, lon) {
-
   params = {
     "lat": lat,
     "lon": lon,
@@ -186,89 +185,7 @@ function weatherApiError() {
 }
 
 
-function myLocationClicked() {
-  // check if we already have user location
-  var lat = localStorage.getItem('lat');
-  var lon = localStorage.getItem('lon');
-  offset = localStorage.getItem('offset');
 
-  if (lat) {
-    //bypass get current position (because it is slow and we already have location)
-    getWeatherFromAPI(lat, lon);
-
-    showHideForcast(lat, lon);
-    return;
-  }
-
-  const myLocation = document.querySelector('button.myLocation');
-  myLocation.disabled = true;
-  myLocation.classList.add("wait");
-  navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
-}
-
-function updateMyLocationClicked() {
-  this.classList.add("wait");
-  this.disabled = true;
-  navigator.geolocation.getCurrentPosition(updatePositionSuccess, positionError);
-}
-
-function updatePositionSuccess(position) {
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-  const updateMyLocation = document.querySelector('button.updateMyLocation');
-  updateMyLocation.disabled = false;
-  updateMyLocation.classList.remove("wait");
-
-  // determine offset hours by doing a lookup.
-  let myOffset = new Date().getTimezoneOffset(); // Seattle = -7 depending on DST
-  offset = -myOffset / 60; // convert to hours
-
-  // save to session storage for performance
-  localStorage.setItem('lat', lat);
-  localStorage.setItem('lon', lon);
-  localStorage.setItem('offset', offset);
-
-  showUserLatLon(lat, lon);
-}
-
-function showUserLatLon(lat, lon) {
-  let lblLat = document.getElementById('myLat');
-  lblLat.innerText = `Lat: ${lat}`;
-
-  let lblLon = document.getElementById('myLon');
-  lblLon.innerText = `Lon: ${lon}`;
-}
-
-// lookup user location and save it as custom attributes on the button.
-function positionSuccess(position) {
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-
-  const myLocation = document.querySelector('button.myLocation');
-
-  myLocation.disabled = false;
-  myLocation.classList.remove("wait");
-
-  // determine offset hours by doing a lookup.
-  let myOffset = new Date().getTimezoneOffset(); // Seattle = -7 depending on DST
-  offset = -myOffset / 60; // convert to hours
-
-  // save to session storage for performance
-  localStorage.setItem('lat', lat);
-  localStorage.setItem('lon', lon);
-  localStorage.setItem('offset', offset);
-
-  showUserLatLon(lat, lon);
-
-  getWeatherFromAPI(lat, lon);
-
-  showHideForcast(lat, lon);
-}
-
-function positionError(failure) {
-  console.log("code: " + failure.code);
-  console.log("message: " + failure.message);
-}
 
 function setTheme() {
   let outerContainer = document.getElementById("outerContainer");
@@ -287,12 +204,6 @@ function setTheme() {
     innerContainer.classList.add(colorClass);
     innerContainer2.classList.add(colorClass);
   }
-}
-
-function resetMyLocationClicked() {
-  localStorage.clear();
-
-  showUserLatLon("", "");
 }
 
 
@@ -349,6 +260,103 @@ document.addEventListener("DOMContentLoaded", function() {
     }); // end add event listener
 
 
+
+
+// MY LOCATION WEATHER ---------------------------------------------------------
+function myLocationClicked() {
+  // check if we already have user location
+  var lat = localStorage.getItem('lat');
+  var lon = localStorage.getItem('lon');
+  offset = localStorage.getItem('offset');
+
+  if (lat) {
+    //bypass get current position (because it is slow and we already have location)
+    getWeatherFromAPI(lat, lon);
+
+    showHideForcast(lat, lon);
+    return;
+  }
+
+  const myLocation = document.querySelector('button.myLocation');
+  myLocation.disabled = true;
+  myLocation.classList.add("wait");
+  navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+}
+
+
+
+// USER LOCATION LAT/LON -------------------------------------------------------
+function updateMyLocationClicked() {
+  this.classList.add("wait");
+  this.disabled = true;
+  navigator.geolocation.getCurrentPosition(updatePositionSuccess, positionError);
+}
+
+function updatePositionSuccess(position) {
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  const updateMyLocation = document.querySelector('button.updateMyLocation');
+  updateMyLocation.disabled = false;
+  updateMyLocation.classList.remove("wait");
+
+  // determine offset hours by doing a lookup.
+  let myOffset = new Date().getTimezoneOffset(); // Seattle = -7 depending on DST
+  offset = -myOffset / 60; // convert to hours
+
+  // save to session storage for performance
+  localStorage.setItem('lat', lat);
+  localStorage.setItem('lon', lon);
+  localStorage.setItem('offset', offset);
+
+  showUserLatLon(lat, lon);
+}
+
+function positionError(failure) {
+  console.log("code: " + failure.code);
+  console.log("message: " + failure.message);
+}
+
+function showUserLatLon(lat, lon) {
+  let lblLat = document.getElementById('myLat');
+  lblLat.innerText = `Lat: ${lat}`;
+
+  let lblLon = document.getElementById('myLon');
+  lblLon.innerText = `Lon: ${lon}`;
+}
+
+// lookup user location and save it as custom attributes on the button.
+function positionSuccess(position) {
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+
+  const myLocation = document.querySelector('button.myLocation');
+
+  myLocation.disabled = false;
+  myLocation.classList.remove("wait");
+
+  // determine offset hours by doing a lookup.
+  let myOffset = new Date().getTimezoneOffset(); // Seattle = -7 depending on DST
+  offset = -myOffset / 60; // convert to hours
+
+  // save to session storage for performance
+  localStorage.setItem('lat', lat);
+  localStorage.setItem('lon', lon);
+  localStorage.setItem('offset', offset);
+
+  showUserLatLon(lat, lon);
+
+  getWeatherFromAPI(lat, lon);
+
+  showHideForcast(lat, lon);
+}
+
+
+function resetMyLocationClicked() {
+  localStorage.clear();
+
+  showUserLatLon("", "");
+}
+
 // FORCAST -----------------------------------------------------------------
 function forcastLoad() {
   if (this.readyState == 4 && this.status == 200) {
@@ -357,6 +365,7 @@ function forcastLoad() {
     showForcastUI(forcastData);
   }
 }
+
 
 function showForcastUI(forcastData) {
   drawChart(forcastData);
