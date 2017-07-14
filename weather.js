@@ -51,17 +51,21 @@ document.addEventListener("DOMContentLoaded", function() {
       // Performance - check for and get user location now, before they click [My Location]
       if (!localStorage.length) {
         navigator.geolocation.getCurrentPosition(positionOnLoad, positionError);
+
+        // default a city.  It looks much better than a blank screen.
+        seattle.click();
       } else {
-        // if we already have location, it will show, otherwise it will be blank, but fill in when the positionOnLoad is called
+        // if we have users lat/lon, show weather for the users location.
         offset = localStorage.getItem('offset');
+        showUserLatLon();
+        myLocation.click();
       }
 
-      // show lat lon.  If blank, at least show the labels.
-      showUserLatLon();
 
 
-      // default a city so it looks better.
-      seattle.click();
+
+
+
     }); // end add event listener
 
 
