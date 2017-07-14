@@ -5,6 +5,8 @@ let currentLat = 0;
 let currentLon = 0;
 let currentOffset = 0;
 
+const locClasses = ["Seattle", "London", "Issaquah"];
+
 const appID = "a90133976c46059fee7922fcf02e5dba";
 
 // To host on github, use API Proxy
@@ -113,14 +115,22 @@ function showUI(data) {
   document.getElementById('tempUnit').innerText = getTempUnit();
   document.getElementById('windSpeed').innerText = convertSpeed(data.wind.speed);
   document.getElementById('humidity').innerHTML = `Humidity ${data.main.humidity}<sup>%</sup>`;
-  document.body.setAttribute("class", data.name);
 
+  setBackground(data);
   setDirection(data);
   setIcon(data);
   setSunRiseIcon(data);
   setSunSetIcon(data);
 }
 
+function setBackground(data){
+  if (locClasses.indexOf(data.name) > -1) {
+    document.body.setAttribute("class", data.name);
+  } else {
+    // the class doesnt exist, set to a default city image
+    document.body.setAttribute("class", "defaultCity");
+  }
+}
 
 // show wind direction as an arrow showing the direction (versus showing degrees)
 function setDirection(data) {

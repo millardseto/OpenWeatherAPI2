@@ -127,4 +127,9 @@ body {
   background-size: cover;
   color: orange; }
 
+.defaultCity {
+  background: url("../media/defaultCity.jpg") no-repeat center fixed;
+  background-size: cover;
+  color: white; }
+
 /*# sourceMappingURL=weather.css.map */
