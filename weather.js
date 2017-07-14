@@ -1,4 +1,3 @@
-var data;
 var forcastData;
 
 var offset = 0;
@@ -26,7 +25,7 @@ function getWeatherFromAPI(lat, lon) {
   };
   let query = queryBuilder(params);
 
-  var oReq = new XMLHttpRequest();
+  let oReq = new XMLHttpRequest();
   oReq.addEventListener("load", weatherAPILoad);
   oReq.addEventListener("error", weatherAPIError);
   let apiCall = apiURL + query;
@@ -38,10 +37,8 @@ function getWeatherFromAPI(lat, lon) {
 
 // callback for api request
 function weatherAPILoad() {
-  //console.log(this.responseText);
   if (this.readyState == 4 && this.status == 200) {
-    //data = JSON.parse(this.responseText); // old response
-    data = JSON.parse(this.responseText).body; // new response
+    let data = JSON.parse(this.responseText).body;
     document.body.classList.remove("wait");
     showUI(data);
   }
@@ -66,15 +63,15 @@ function showUI(data) {
   document.getElementById('humidity').innerHTML = `Humidity ${data.main.humidity}<sup>%</sup>`;
   document.body.setAttribute("class", data.name);
 
-  setDirection();
-  setIcon();
-  setSunRiseIcon();
-  setSunSetIcon();
+  setDirection(data);
+  setIcon(data);
+  setSunRiseIcon(data);
+  setSunSetIcon(data);
 }
 
 
 // show wind direction as an arrow showing the direction (versus showing degrees)
-function setDirection() {
+function setDirection(data) {
   // set arrow
   let direction = document.getElementById('windDegrees');
 
@@ -91,7 +88,7 @@ function setDirection() {
   }
 }
 
-function setIcon() {
+function setIcon(data) {
   // Set the weather image
   let icon2 = document.createElement('img');
   let iconSource = `./icons/${data.weather[0].icon}.png`;
@@ -104,7 +101,7 @@ function setIcon() {
   iconDiv.appendChild(icon2);
 }
 
-function setSunRiseIcon() {
+function setSunRiseIcon(data) {
   let sunrise = document.createElement("img");
   sunrise.setAttribute("src", "./icons/sunrise.png");
   sunrise.setAttribute("class", "sun");
@@ -119,7 +116,7 @@ function setSunRiseIcon() {
   container.appendChild(riseTime);
 }
 
-function setSunSetIcon() {
+function setSunSetIcon(data) {
   let sunset = document.createElement("img");
 
   sunset.setAttribute("src", "./icons/sunset.png");
