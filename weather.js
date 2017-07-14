@@ -48,7 +48,26 @@ function weatherAPILoad() {
 function weatherAPIError() {
   console.log("OpenWeatherMap API Failed");
 }
-// END WEATHER API -------------------------------------------------------------
+
+
+// WEATHER UI --------------------------------------------------------------------------
+
+// show response data in the UI
+function showUI(data) {
+  document.getElementById('city').innerText = data.name;
+  document.getElementById('weatherMain').innerText = data.weather[0].main;
+  document.getElementById('tempNow').innerText = kelvinToFarenhheit(data.main.temp);
+  document.getElementById('tempUnit').innerText = getTempUnit();
+  document.getElementById('windSpeed').innerText = convertSpeed(data.wind.speed);
+  document.getElementById('humidity').innerHTML = `Humidity ${data.main.humidity}<sup>%</sup>`;
+  document.body.setAttribute("class", data.name);
+
+  setDirection();
+  setIcon();
+  setSunRiseIcon();
+  setSunSetIcon();
+}
+
 
 // show wind direction as an arrow showing the direction (versus showing degrees)
 function setDirection() {
@@ -80,8 +99,6 @@ function setIcon() {
   iconDiv.innerHTML = "";
   iconDiv.appendChild(icon2);
 }
-
-
 
 function setSunRiseIcon() {
   let sunrise = document.createElement("img");
@@ -115,22 +132,7 @@ function setSunSetIcon() {
 }
 
 
-// show response data in the UI
-function showUI(data) {
-  document.getElementById('city').innerText = data.name;
-  document.getElementById('weatherMain').innerText = data.weather[0].main;
-  document.getElementById('tempNow').innerText = kelvinToFarenhheit(data.main.temp);
-  document.getElementById('tempUnit').innerText = getTempUnit();
-  document.getElementById('windSpeed').innerText = convertSpeed(data.wind.speed);
-  document.getElementById('humidity').innerHTML = `Humidity ${data.main.humidity}<sup>%</sup>`;
-  document.body.setAttribute("class", data.name);
-
-  setDirection();
-  setIcon();
-  setSunRiseIcon();
-  setSunSetIcon();
-
-}
+// OTHER EVENT HANDLERS --------------------------------------------------------
 
 function cityClicked() {
   // get custom attributes from control
@@ -443,7 +445,7 @@ function drawChart(forcastData) {
   function convertSpeed(s) {
     return mpsToMPH(s) + ' MPH';
   }
-  
+
   // function to calculate local time
   // in a different city
   // given the city's UTC offset
