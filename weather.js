@@ -48,13 +48,17 @@ document.addEventListener("DOMContentLoaded", function() {
       warm.addEventListener('click', setTheme);
       dark.addEventListener('click', setTheme);
 
-      // check for and get user location now, before they click [My Location]
+      // Performance - check for and get user location now, before they click [My Location]
       if (!localStorage.length) {
-
+        navigator.geolocation.getCurrentPosition(positionOnLoad, positionError);
+      } else {
+        // if we already have location, it will show, otherwise it will be blank, but fill in when the positionOnLoad is called
+        offset = localStorage.getItem('offset');
       }
 
-      offset = localStorage.getItem('offset');
+      // show lat lon.  If blank, at least show the labels.
       showUserLatLon();
+
 
       // default a city so it looks better.
       seattle.click();
@@ -257,6 +261,8 @@ function positionOnLoad(position){
 
   // save to session storage for performance
   storeUserLocation(lat, lon, offset);
+
+  showUserLatLon();
 }
 
 function storeUserLocation(lat, lon, offset){
