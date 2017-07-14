@@ -15,6 +15,52 @@ const apiURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/weather";
 const apiForcastURL = "https://uwpce-weather-proxy.herokuapp.com/data/2.5/forecast";
 
 
+
+// When the dom is ready, wire up event handlers
+document.addEventListener("DOMContentLoaded", function() {
+      google.charts.load('current', {
+        packages: ['corechart', 'line']
+      });
+
+      // button controls
+      const london = document.querySelector('button.london');
+      const seattle = document.querySelector('button.seattle');
+      const myLocation = document.querySelector('button.myLocation');
+      const updateMyLocation = document.querySelector('button.updateMyLocation');
+      const resetMyLocation = document.querySelector('button.resetMyLocation');
+      const forcast = document.querySelector('input.forcast');
+      const lblForcast = document.getElementById("lblForecast");
+
+      const cool = document.querySelector('#cool');
+      const warm = document.querySelector('#warm');
+      const dark = document.querySelector('#dark');
+
+
+      // event handlers
+      london.addEventListener('click', cityClicked);
+      seattle.addEventListener('click', cityClicked);
+      myLocation.addEventListener('click', myLocationClicked);
+      updateMyLocation.addEventListener('click', updateMyLocationClicked);
+      resetMyLocation.addEventListener('click', resetMyLocationClicked);
+      forcast.addEventListener('click', getForcastClicked);
+
+      cool.addEventListener('click', setTheme);
+      warm.addEventListener('click', setTheme);
+      dark.addEventListener('click', setTheme);
+
+      // check for and get user location now, before they click [My Location]
+      if (!localStorage.length) {
+
+      }
+
+      offset = localStorage.getItem('offset');
+      showUserLatLon();
+
+      // default a city so it looks better.
+      seattle.click();
+    }); // end add event listener
+
+
 /* -----------------------------------------------------------------------------
  * WEATHER API
  * -----------------------------------------------------------------------------*/
@@ -174,47 +220,6 @@ function setTheme() {
 }
 
 
-// When the dom is ready, wire up event handlers
-document.addEventListener("DOMContentLoaded", function() {
-      google.charts.load('current', {
-        packages: ['corechart', 'line']
-      });
-
-      // button controls
-      const london = document.querySelector('button.london');
-      const seattle = document.querySelector('button.seattle');
-      const myLocation = document.querySelector('button.myLocation');
-      const updateMyLocation = document.querySelector('button.updateMyLocation');
-      const resetMyLocation = document.querySelector('button.resetMyLocation');
-      const forcast = document.querySelector('input.forcast');
-      const lblForcast = document.getElementById("lblForecast");
-
-      const cool = document.querySelector('#cool');
-      const warm = document.querySelector('#warm');
-      const dark = document.querySelector('#dark');
-
-
-      // event handlers
-      london.addEventListener('click', cityClicked);
-      seattle.addEventListener('click', cityClicked);
-      myLocation.addEventListener('click', myLocationClicked);
-      updateMyLocation.addEventListener('click', updateMyLocationClicked);
-      resetMyLocation.addEventListener('click', resetMyLocationClicked);
-      forcast.addEventListener('click', getForcastClicked);
-
-      cool.addEventListener('click', setTheme);
-      warm.addEventListener('click', setTheme);
-      dark.addEventListener('click', setTheme);
-
-      offset = localStorage.getItem('offset');
-      showUserLatLon();
-
-      // default a city so it looks better.
-      seattle.click();
-    }); // end add event listener
-
-
-
 /* -----------------------------------------------------------------------------
  * MY LOCATION WEATHER
  * -----------------------------------------------------------------------------*/
@@ -241,6 +246,25 @@ function myLocationClicked() {
   navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
 }
 
+// handle getting position on load
+function positionOnLoad(position){
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+
+  // determine offset hours by doing a lookup.
+  let myOffset = new Date().getTimezoneOffset(); // Seattle = -7 depending on DST
+  offset = -myOffset / 60; // convert to hours
+
+  // save to session storage for performance
+  storeUserLocation(lat, lon, offset);
+}
+
+function storeUserLocation(lat, lon, offset){
+  localStorage.setItem('lat', lat);
+  localStorage.setItem('lon', lon);
+  localStorage.setItem('offset', offset);
+}
+
 // lookup user location and save it as custom attributes on the button.
 function positionSuccess(position) {
   let lat = position.coords.latitude;
@@ -256,9 +280,7 @@ function positionSuccess(position) {
   offset = -myOffset / 60; // convert to hours
 
   // save to session storage for performance
-  localStorage.setItem('lat', lat);
-  localStorage.setItem('lon', lon);
-  localStorage.setItem('offset', offset);
+  storeUserLocation(lat, lon, offset);
 
   showUserLatLon();
 
@@ -295,9 +317,7 @@ function updatePositionSuccess(position) {
   offset = -myOffset / 60; // convert to hours
 
   // save to session storage for performance
-  localStorage.setItem('lat', lat);
-  localStorage.setItem('lon', lon);
-  localStorage.setItem('offset', offset);
+  storeUserLocation(lat, lon, offset);
 
   showUserLatLon();
 }
